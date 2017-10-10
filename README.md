@@ -13,8 +13,8 @@ These will also require Jupyter kernels installed for the following:
 * IJulia kernel: https://github.com/JuliaLang/IJulia.jl.
 * R kernel: https://github.com/IRkernel/IRkernel
 
-Within Julia you will need to run the following code once before you can run the change points code:
-* Roots package: Pkg.add("Roots").
+Within Julia you will need to install the Roots package once before you can run the change points code:
+* Pkg.add("Roots").
 
 In R, you will need to run the following commands once before you can run the analysis notebooks:
 * install.packages("tidyverse")
