@@ -20,6 +20,4 @@ In R, you will need to run the following commands once before you can run the an
 * install.packages("tidyverse")
 * install.packages("svglite")
 
-If you have obtained Python by installing Anaconda, it should come with all of the required packages.
-
 Otherwise, if you just want to run the change point functions, you minimally only need Julia with the roots package installed. You can then either run the Julia code in the Julia REPL, or in a notebook if you also have Anaconda and the Julia kernel.
