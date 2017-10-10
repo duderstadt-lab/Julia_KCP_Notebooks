@@ -1,8 +1,11 @@
 # Julia_KCP_Notebooks
 This repository contains the following folders:
-* src folder: Julia v0.6 code for kinetic changepoint method.
-* examples folder: A Jupyter notebook file explaining the usage of the change point functions, along with example data.
-* SimulationsandFigures folder: In an effort to support reproducible research, we have included Juptyer Notebook files containing trajectory simulations, change point analysis and plotting. These require Python 3, Julia 0.6 and R kernels for the Jupyter notebook. Each uses a specified random seed which will allow the analysis and figures in the JCP paper to be precisely reproduced.
+* src 
+    Julia v0.6 code for kinetic changepoint method.
+* examples
+    A Jupyter notebook file explaining the usage of the change point functions, along with example data.
+* SimulationsandFigures
+    In an effort to support reproducible research, we have included Juptyer Notebook files containing trajectory simulations, change point     analysis and plotting. These require Python 3, Julia 0.6 and R kernels for the Jupyter notebook. Each uses a specified random seed         which will allow the analysis and figures in the JCP paper to be precisely reproduced.
 
 To run everything, including the simulations and analysis, you will need the following installed:
 
