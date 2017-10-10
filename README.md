@@ -1,4 +1,5 @@
 # Julia_KCP_Notebooks
+This repository contains the following folders:
 * src folder: Julia v0.6 code for kinetic changepoint method.
 * examples folder: A Jupyter notebook file explaining the usage of the change point functions, along with example data.
 * SimulationsandFigures folder: Juptyer Notebook files containing trajectory simulations, change point analysis and plotting. These require Python 3, Julia 0.6 and R kernels for the Jupyter notebook. Each uses a specified random seed which will allow the analysis and figures in the JCP paper to be precisely reproduced.
@@ -14,7 +15,7 @@ These will also require Jupyter kernels installed for the following:
 * R kernel: https://github.com/IRkernel/IRkernel
 
 Within Julia you will need to install the Roots package once before you can run the change points code:
-* Pkg.add("Roots").
+* Pkg.add("Roots")
 
 In R, you will need to run the following commands once before you can run the analysis notebooks:
 * install.packages("tidyverse")
