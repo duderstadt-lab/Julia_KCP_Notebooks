@@ -21,4 +21,6 @@ In R, you will need to run the following commands once before you can run the an
 * install.packages("tidyverse")
 * install.packages("svglite")
 
+If you wish to reproduce our analysis, download the repository and navigate to the SimulationsandFigures folder. In a terminal/command prompt, type 'jupyter notebook' to launch the Jupyter notebook home page in your web browser. You can then click on the desired notebook from the SimulationsandFigures folder, to open it in a new tab. Choose the Python kernel and run the Python cells in sequence, then once those have finished running (it will take some time to produce the simulated data) switch to the Julia kernel to run the Julia commands, followed by R etc. The simulated trajectories are large datasets, and for this reason have not been included in this repository, however, the use of a defined random seed in the notebooks means that you can reproduce the same datasets that we have used in our analysis.
+
 Otherwise, if you just want to run the change point functions, you minimally only need Julia with the roots package installed. You can then either run the Julia code in the Julia REPL, or in a notebook if you also have Anaconda and the Julia kernel.
