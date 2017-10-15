@@ -88,7 +88,7 @@ function binary_search(inputarray, xoffset, xlength, sigma, OneMa)
 
     q = 1
     if length(cp_positions) > 3
-        while q < (length(cp_positions) - 2)
+        while q < (length(cp_positions) - 1)
             cp = changepoint(inputarray, cp_positions[q], cp_positions[q + 2] - cp_positions[q] + 1, sigma, OneMa)
             deleteat!(cp_positions, q + 1)
             if (cp != -1)
