@@ -32,10 +32,10 @@ function olsfit(xdata, ydata, xoffset, xlength)
 end
 
 function olsfit_ll(xdata, ydata, xoffset, xlength, sigma)
-    xsumsquares = 0.0
-    xsum = 0.0
-    ysum = 0.0
-    xysum = 0.0
+    xsumsquares = 0.0::Float64
+    xsum = 0.0::Float64
+    ysum = 0.0::Float64
+    xysum = 0.0::Float64
     for i in xoffset:(xoffset + xlength - 1)
         xsumsquares += xdata[i]*xdata[i]
         xsum += xdata[i]
@@ -45,7 +45,7 @@ function olsfit_ll(xdata, ydata, xoffset, xlength, sigma)
     delta = xlength * xsumsquares-xsum*xsum
     A = (xsumsquares*ysum-xsum*xysum)/delta
     B = (xlength*xysum-xsum*ysum)/delta
-    linesum = 0.000000000000000000000000000000
+    linesum = 0.0::Float64
     for i in xoffset:(xoffset + xlength - 1)
         linesum += (ydata[i] - B*xdata[i] - A) * (ydata[i] - B*xdata[i] - A)
     end
@@ -56,7 +56,7 @@ function changepoint(inputarray, xoffset, xlength, sigma, confidenceLevel)
     xdata = view(inputarray, : , 1)
     ydata = view(inputarray, : , 2)
     llnull = olsfit_ll(xdata, ydata, xoffset, xlength, sigma)
-    llr_max = 0.0
+    llr_max = 0.0::Float64
     llr_max_position = -1
     for w in 2:(xlength - 3)
         segA_ll = olsfit_ll(xdata, ydata, xoffset, w, sigma)
@@ -78,7 +78,7 @@ function binary_search(inputarray, xoffset, xlength, sigma, confidenceLevel)
     cp_positions = [xoffset, xoffset + xlength - 1]
     q = 1
     while q < length(cp_positions)
-        cp = changepoint(inputarray, cp_positions[q], cp_positions[q + 1] - cp_positions[q] + 1, sigma, confidenceLevel)
+        cp = changepoint(inputarray, cp_positions[q], cp_positions[q + 1] - cp_positions[q], sigma, confidenceLevel)
         if (cp != -1)
             insert!(cp_positions, q + 1, cp)
         else
@@ -89,7 +89,7 @@ function binary_search(inputarray, xoffset, xlength, sigma, confidenceLevel)
     q = 1
     if length(cp_positions) > 3
         while q < (length(cp_positions) - 1)
-            cp = changepoint(inputarray, cp_positions[q], cp_positions[q + 2] - cp_positions[q] + 1, sigma, confidenceLevel)
+            cp = changepoint(inputarray, cp_positions[q], cp_positions[q + 2] - cp_positions[q], sigma, confidenceLevel)
             deleteat!(cp_positions, q + 1)
             if (cp != -1)
                 insert!(cp_positions, q + 1, cp)
