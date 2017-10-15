@@ -1,15 +1,15 @@
 using Roots
 
-function pfunc(p, T, OneMa)
-    ((p * p)/2.) * exp(-(p * p)/2.) * (T - (2. * T)/(p * p) + 4./(p * p)) + OneMa - 1.0
+function pfunc(p, T, confidenceLevel)
+    ((p * p)/2.) * exp(-(p * p)/2.) * (T - (2. * T)/(p * p) + 4./(p * p)) + confidenceLevel - 1.0
 end
 
-function confidenceThreshold(xlength, OneMa)
+function confidenceThreshold(xlength, confidenceLevel)
     num1 = log(xlength)
     num2 = num1^1.5
     h = num2/xlength
     T = log((1.0-h * h)/(h * h))
-    curriedp(p) = pfunc(p, T, OneMa)
+    curriedp(p) = pfunc(p, T, confidenceLevel)
     root = fzero(curriedp, 2, 7)
     return root
 end
@@ -49,10 +49,10 @@ function olsfit_ll(xdata, ydata, xoffset, xlength, sigma)
     for i in xoffset:(xoffset + xlength - 1)
         linesum += (ydata[i] - B*xdata[i] - A) * (ydata[i] - B*xdata[i] - A)
     end
-    return xlength * log(1.0/sigma * 2.506628275) - linesum/(2 * sigma * sigma)
+    return xlength * log(1.0/sigma * sqrt(2*pi)) - linesum/(2*sigma*sigma)
 end
 
-function changepoint(inputarray, xoffset, xlength, sigma, OneMa)
+function changepoint(inputarray, xoffset, xlength, sigma, confidenceLevel)
     xdata = view(inputarray, : , 1)
     ydata = view(inputarray, : , 2)
     llnull = olsfit_ll(xdata, ydata, xoffset, xlength, sigma)
@@ -67,18 +67,18 @@ function changepoint(inputarray, xoffset, xlength, sigma, OneMa)
             llr_max_position = xoffset + w
         end
     end	
-    if sqrt(2*llr_max) > confidenceThreshold(xlength, OneMa)
+    if sqrt(2*llr_max) > confidenceThreshold(xlength, confidenceLevel)
         return llr_max_position
     else
         return -1
     end
 end
 
-function binary_search(inputarray, xoffset, xlength, sigma, OneMa)
+function binary_search(inputarray, xoffset, xlength, sigma, confidenceLevel)
     cp_positions = [xoffset, xoffset + xlength - 1]
     q = 1
     while q < length(cp_positions)
-        cp = changepoint(inputarray, cp_positions[q], cp_positions[q + 1] - cp_positions[q] + 1, sigma, OneMa)
+        cp = changepoint(inputarray, cp_positions[q], cp_positions[q + 1] - cp_positions[q] + 1, sigma, confidenceLevel)
         if (cp != -1)
             insert!(cp_positions, q + 1, cp)
         else
@@ -89,7 +89,7 @@ function binary_search(inputarray, xoffset, xlength, sigma, OneMa)
     q = 1
     if length(cp_positions) > 3
         while q < (length(cp_positions) - 1)
-            cp = changepoint(inputarray, cp_positions[q], cp_positions[q + 2] - cp_positions[q] + 1, sigma, OneMa)
+            cp = changepoint(inputarray, cp_positions[q], cp_positions[q + 2] - cp_positions[q] + 1, sigma, confidenceLevel)
             deleteat!(cp_positions, q + 1)
             if (cp != -1)
                 insert!(cp_positions, q + 1, cp)
@@ -120,12 +120,12 @@ function startendtable(resultsarray)
 end
 
 
-function batch_table(inputarray, sigma, OneMa)
+function batch_table(inputarray, sigma, confidenceLevel)
     resultsarray = view(inputarray, :, :)
     offsetslengths = startendtable(resultsarray)
     cp_table = []
     for i in 1:length(offsetslengths[:,1])
-        append!(cp_table, binary_search(resultsarray, offsetslengths[i,2], offsetslengths[i,3], sigma, OneMa))
+        append!(cp_table, binary_search(resultsarray, offsetslengths[i,2], offsetslengths[i,3], sigma, confidenceLevel))
     end
     i1_table = []
     i2_table = []
@@ -169,10 +169,10 @@ return [timecolumn ntcolumn trajectorycolumn]
 end
 
 
-function getchangepoints(inputfile, outputfilename, sigma, OneMa, sep = ',', columnorder = [1,2,3])
+function getchangepoints(inputfile, outputfilename, sigma, confidenceLevel, sep = ',', columnorder = [1,2,3])
     inputarray = readdlm(inputfile, sep)
     testarray = convert_array(inputarray, columnorder)
-    outputarray = batch_table(testarray, sigma, OneMa)
+    outputarray = batch_table(testarray, sigma, confidenceLevel)
     writecsv(outputfilename, outputarray)
     return outputarray
 end
