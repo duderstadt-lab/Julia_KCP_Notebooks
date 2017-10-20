@@ -14,8 +14,8 @@
 To run everything, including the simulations and analysis, you will need the following installed:
 
 ### Software
-* Anaconda, with Python 3.x, this will include Jupyter notebooks.https://www.anaconda.com/download/
-* Julia v 0.6. https://julialang.org/
+* [Anaconda](https://www.anaconda.com/download/), with Python 3.x, this will include Jupyter notebooks.
+* [Julia](https://julialang.org/) v 0.6.
 * [R](https://www.r-project.org/). Installing [RStudio](https://www.rstudio.com/) is a good idea. It makes installing packages easy.
 
 ### Libraries/Packages
