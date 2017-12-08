@@ -1,4 +1,6 @@
 # Julia_KCP_Notebooks
+![Example trajectory](https://github.com/duderstadt-lab/Julia_KCP_Notebooks/blob/master/SimulationsandFigures/Figures/examplemediumplot_fig5.svg)
+
 ## Folders
 * src 
 
