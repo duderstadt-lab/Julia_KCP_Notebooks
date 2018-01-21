@@ -1,5 +1,9 @@
 # Julia_KCP_Notebooks
 
+Please cite:
+
+Hill, F.R., van Oijen, A.M., and Duderstadt, K.E. (2018). Detection of kinetic change points in piece-wise linear single molecule motion. The Journal of Chemical Physics 148, 123317.
+
 ## Folders
 * src 
 
